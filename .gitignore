@@ -1,0 +1,10 @@
+.env
+*.sql
+config
+dados_csv
+datalake
+dbdata
+logs
+plugins
+*.yaml
+__pycache__
