@@ -211,4 +211,4 @@ Para uma implementação em produção, seria necessário:
 
 ---
 
-*Projeto desenvolvido com 💚 para o Programa Lighthouse 2024*
+*Projeto desenvolvido com 💚 para o Programa Lighthouse 2025*
