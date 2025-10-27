@@ -1,50 +1,41 @@
 # 💚 Case Indicium - Programa Lighthouse
 
-## 📋 Sobre o Projeto
+## Descrição do Projeto
 
-Este repositório contém o código da minha solução para o desafio técnico do **Programa Lighthouse** da empresa **Indicium**, focado em Engenharia de Dados. O projeto demonstra a implementação de um pipeline completo de dados: extração dos dados do banco relacional do cliente Banco Vitória, modelagem dimensional de um Data Warehouse e ingestão dos dados no mesmo.
+Este repositório contém a solução para o case técnico de Engenharia de Dados do Banco Vitória (BanVic), que simula a implementação de um pipeline de dados para centralizar informações de diferentes fontes em um Data Warehouse.
 
-### 🎯 Objetivo
-Desenvolver uma solução de dados focada em **extração e ingestão** que demonstre competências técnicas em:
-- Engenharia de Dados
-- Modelagem Dimensional
-- Pipeline ETL
-- Data Warehouse
-- Orquestração de processos com Apache Airflow
+O projeto aborda a jornada de maturidade de dados do BanVic, focando inicialmente na análise de dados de crédito como projeto piloto para demonstrar valor para a organização.
+
+### Contexto do Desafio
+
+O Banco Vitória S.A. (BanVic) busca evoluir sua cultura de dados através da implementação de um pipeline de dados que centralize informações em um Data Warehouse. Atualmente, as análises são realizadas manualmente em planilhas, o que limita a capacidade de geração de insights para tomada de decisão.
   
 ---
 
-## 🏗️ Arquitetura do Projeto
-
-### Diagrama de Fluxo de Dados
+## Arquitetura da Solução
 
 ```mermaid
-flowchart LR
-    subgraph "Fontes de Dados"
-        A1[CSV]
-        A2[SQL]
-    end
-
-    subgraph "Apache Airflow"
-        B1[Extração]
-        B2[FileSystem Local<br/>Data Lake]
-        B3[Carregamento]
-        B4[PostgreSQL Local<br/>Data Warehouse]
-        
-        B1 --> B2
-        B2 --> B3
-        B3 --> B4
-    end
-
-    A1 --> B1
-    A2 --> B1
+graph LR
+    A[CSV] --> C[Apache Airflow]
+    B[SQL] --> C
+    C --> D[FileSystem Local]
+    D --> E[PostgreSQL DW]
+    
+    F[CSV + SQL] -.-> A
+    G[Orquestração] -.-> C
+    H[Staging Area] -.-> D
+    I[Destino Final] -.-> E
+    
+    class A,B source
+    class C orchestration
+    class D storage
+    class E warehouse
+    class F,G,H,I legend
 ```
 
 ---
 
-## 🗄️ Modelagem do Data Warehouse
-
-### Diagrama de Relacionamento
+## Modelagem do Data Warehouse
 
 ```mermaid
 erDiagram
@@ -145,40 +136,37 @@ erDiagram
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+### Funcionalidades Implementadas
 
-- **Docker** - Containerização da aplicação e dependências
-- **Apache Airflow** - Orquestração e agendamento de pipelines
-- **PostgreSQL** - Banco de dados para Data Warehouse
-- **Python** - Linguagem principal para ETL e processamento
-- **SQL** - Manipulação e consulta de dados
+- Orquestração com Apache Airflow: Pipeline gerenciado e agendado
+
+- Extração Idempotente: Processos reprodutíveis e consistentes
+
+- Extração em Paralelo: CSV e SQL processados simultaneamente
+
+- Padronização de Arquivos: Estrutura de diretórios organizada
+
+- Carregamento Condicional: DW só é atualizado se ambas extrações forem bem-sucedidas
+
+- Agendamento Automático: Execução diária às 04:35
+
+- Ambiente Reproduzível: Configuração via Docker Compose
   
 ---
 
-## 📊 Pipeline de Dados
-
-### Funcionalidades Implementadas:
-- **Extração automatizada** de dados de múltiplas fontes
-- **Armazenamento** de dados brutos em um Data Lake
-- **Carregamento estruturado** no Data Warehouse PostgreSQL
-- **Orquestração com Airflow** para agendamento e monitoramento
-- **Modelagem dimensional** para análises otimizadas
-
----
-
-## ⚠️ Limitações Conhecidas
+## Limitações Conhecidas
 
 Este projeto foi desenvolvido para fins de **demonstração técnica** e possui as seguintes limitações:
 
-### 🔴 Data Lake Simulado
+### Data Lake Simulado
 - Utiliza sistema de arquivos local para simular um Data Lake em vez de uma solução cloud (AWS S3, Azure Data Lake, etc.)
 
-### 🔴 Ausência de CDC (Change Data Capture)
+### Ausência de CDC (Change Data Capture)
 - Os dados mais atualizados são determinados de acordo com a data do diretório do Data Lake
 - Não captura mudanças em tempo real 
 - Dados podem ficar desatualizados entre execuções
 
-### 🔴 Ambiente de Desenvolvimento
+### Ambiente de Desenvolvimento
 - Configuração simplificada para demonstração
 - Execução em containers locais via Docker
 - Sem pipeline CI/CD implementado
@@ -186,24 +174,22 @@ Este projeto foi desenvolvido para fins de **demonstração técnica** e possui 
 
 ---
 
-## 🎯 Melhorias Futuras
+## Melhorias Futuras
 
 Para uma implementação em produção, seria necessário:
 
 1. **Implementar CDC** para captura de mudanças em tempo real
 2. **Migrar para Data Lake real** (AWS S3, Azure Data Lake, GCP Cloud Storage)
-3. **Adicionar orquestração avançada** com recursos enterprise do Airflow
-4. **Implementar data quality** e validações automáticas robustas
-5. **Adicionar monitoramento** e alertas avançados
-6. **Configurar pipeline CI/CD** para automação de deploys
-7. **Implementar data lineage** e catalogação de dados
-8. **Adicionar testes automatizados** para os pipelines
-9. **Configurar backup e recovery** dos dados
-10. **Implementar segurança** e controle de acesso
+3. **Implementar data quality** e validações automáticas robustas
+4. **Configurar pipeline CI/CD** para automação de deploys
+5. **Implementar data lineage** e catalogação de dados
+6. **Adicionar testes automatizados** para os pipelines
+7. **Configurar backup e recovery** dos dados
+8. **Implementar segurança** e controle de acesso
 
 ---
 
-## 👥 Contato
+## Contato
 
 **Juliana Vieira**
 - LinkedIn: [linkedin.com/in/juliana-vieira](https://linkedin.com/in/juliana-vieira)
